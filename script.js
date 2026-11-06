@@ -153,7 +153,7 @@
   });
 
   window.addEventListener("resize", () => {
-    if (window.innerWidth > 1000 && menuOpen) {
+    if (window.innerWidth > 960 && menuOpen) {
       closeMenu({ restoreFocus: false });
     }
   });
@@ -207,55 +207,6 @@
   } else {
     revealElements.forEach((element) => element.classList.add("is-in"));
   }
-
-  /* ---------- Product tabs ---------- */
-
-  const tabs = [...document.querySelectorAll('[role="tab"]')];
-  const panels = tabs
-    .map((tab) => document.getElementById(tab.getAttribute("aria-controls")))
-    .filter(Boolean);
-
-  const activateTab = (index, moveFocus = false) => {
-    tabs.forEach((tab, tabIndex) => {
-      const isActive = tabIndex === index;
-      tab.classList.toggle("is-active", isActive);
-      tab.setAttribute("aria-selected", String(isActive));
-      tab.tabIndex = isActive ? 0 : -1;
-    });
-
-    panels.forEach((panel, panelIndex) => {
-      panel.hidden = panelIndex !== index;
-    });
-
-    if (moveFocus) tabs[index]?.focus();
-  };
-
-  tabs.forEach((tab, index) => {
-    tab.addEventListener("click", () => activateTab(index));
-
-    tab.addEventListener("keydown", (event) => {
-      const keys = ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"];
-      if (!keys.includes(event.key) && event.key !== "Home" && event.key !== "End") {
-        return;
-      }
-
-      event.preventDefault();
-
-      let nextIndex = index;
-
-      if (event.key === "Home") {
-        nextIndex = 0;
-      } else if (event.key === "End") {
-        nextIndex = tabs.length - 1;
-      } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
-        nextIndex = (index - 1 + tabs.length) % tabs.length;
-      } else {
-        nextIndex = (index + 1) % tabs.length;
-      }
-
-      activateTab(nextIndex, true);
-    });
-  });
 
   /* ---------- Request form ---------- */
 
@@ -357,7 +308,7 @@
       const isInteractive = Boolean(
         target instanceof Element &&
           target.closest(
-            'a, button, [role="tab"], label, .footer__nav a, .header-telegram'
+            'a, button, [role="tab"], label, .footer__nav a, .header-tg'
           )
       );
 
